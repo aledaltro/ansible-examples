@@ -1,0 +1,15 @@
+---
+- name: Security
+  hosts: webservers
+  become: true
+  vars:
+   selinux_policy: targeted
+   selinux_state: enforcing
+   selinux_booleans:
+    - name: httpd_can_network_connect
+      state: on
+      persistent: yes 
+  tasks:
+    - name: execute the role
+      include_role:
+        name: rhel-system-roles.selinux

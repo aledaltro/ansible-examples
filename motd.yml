@@ -1,0 +1,27 @@
+---
+- name: Task 3 File Content
+  hosts: all
+  become: true
+  vars:
+    target: "/etc/motd"
+    txtproxy: "Welcome to HA Proxy server"
+    txtwebservers: "Welcome to Apache server"
+    txtdatabases: "Welcome to MySQL server"
+  tasks:
+    - name: Create motd Proxy
+      copy:
+        content: "{{ txtproxy }}"
+        dest: "{{ target }}"
+      when: "'proxy' in group_names" 
+
+    - name: Create motd Webservers
+      copy:
+        content: "{{ txtwebservers }}"
+        dest: "{{ target }}"
+      when: "'webservers' in group_names"
+
+    - name: Create motd Database
+      copy:
+        content: "{{ txtdatabases }}"
+        dest: "{{ target }}"
+      when: "'database' in group_names"

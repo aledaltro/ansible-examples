@@ -1,0 +1,12 @@
+---
+- name: Teste hostvars
+  hosts: all
+  become: true
+  serial: 1
+  tasks:
+    - name: Create file
+      copy:
+        content: "{{ ansible_facts['default_ipv4']['address'] }}"
+        dest: /tmp/ipdo5.txt
+
+

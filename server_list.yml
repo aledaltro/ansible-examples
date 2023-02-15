@@ -1,0 +1,13 @@
+---
+- name: Create and Use Templates to Create Customised Configuration Files
+  hosts: all
+  become: true
+  tasks:
+    - name: Create file by template
+      template:
+        src: ./server_list_facts.j2
+        dest: /etc/server_list.txt
+        mode: '0600'
+        owner: automation
+        setype: net_conf_t
+      when: "'database' in group_names"

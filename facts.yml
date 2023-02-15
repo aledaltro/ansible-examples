@@ -1,0 +1,19 @@
+---
+- name: Task 15 Work with Ansible Facts
+  hosts: database
+  become: true
+  tasks:
+    - name: Create a ansible custom facts driectory
+      file:
+        path: /etc/ansible/facts.d/
+        state: directory
+        mode: '0755'
+
+    - name: Create a custom fact
+      blockinfile:
+        path: /etc/ansible/facts.d/custom.fact
+        create: yes
+        block: |
+          [sample_exam]
+          server_role=mysql
+        

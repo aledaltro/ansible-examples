@@ -1,0 +1,12 @@
+---
+- name: Scheduled Tasks
+  hosts: proxy
+  become: true
+  tasks:
+    - name: Date Hourly
+      cron:
+        name: Data Hourly
+        special_time: "hourly"
+        job: "date >> /var/log/time.log"
+        cron_file: time
+        user: root

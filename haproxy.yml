@@ -1,0 +1,47 @@
+---
+- name: Download Roles from Ansible Galaxy and Use Then
+  hosts: webservers
+  become: true
+  vars:
+    - haproxy_frontend_name: 'hafrontend'
+    - haproxy_frontend_bind_address: '*'
+    - haproxy_frontend_port: 8080
+    - haproxy_frontend_method: 'http'
+    - haproxy_backend_name: 'habackend'
+    - haproxy_backend_mode: 'http'
+    - haproxy_backend_balance_method: 'roundrobin'
+    - haproxy_backend_servers:
+       - name: ansible3
+         address: ansible3.hl.local:80
+       - name: ansible4
+         address: ansible4.hl.local:80
+  roles:
+   - geerlingguy.haproxy
+  tasks:
+    - name: Firewall
+      firewalld:
+        port: 8080/tcp
+        immediate: true
+        permanent: true
+        state: enabled
+
+    - name: Restart HAProxy
+      service:
+        name: haproxy
+        state: restarted
+
+- name: Test curl
+  hosts: localhost
+  tasks:
+    
+    - name: check page
+      uri:
+        url: http://172.24.82.99:8080
+        return_content: yes
+      register: output55
+
+    - name: Display
+      debug:
+        var: output55
+
+

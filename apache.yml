@@ -1,0 +1,5 @@
+- name: Deploy Web Servers
+  hosts: webservers
+  become: true
+  roles:
+    - sample-apache

@@ -1,0 +1,20 @@
+---
+- name: Software Packages
+  hosts: [proxy, database]
+  become: true
+  tasks:
+    - name: Install software for proxy servers
+      yum:
+        name:
+          - tcpdump
+          - mailx
+        state: latest
+      when: "'proxy' in group_names"
+    
+    - name: Install software for database servers
+      yum:
+        name:
+          - lsof
+          - mailx
+        state: latest
+      when: "'database' in group_names"
